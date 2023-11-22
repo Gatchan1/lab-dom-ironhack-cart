@@ -29,23 +29,35 @@ function calculateAll() {
   // end of test
 
   // ITERATION 2
-  //... your code goes here
 
-  const products = document.getElementsByClassName('product');
+  // //FIRST ATTEMPT
+  // const products = document.getElementsByClassName('product');
   
+  // for (let i = 0; i < products.length; i++) {
+  //   updateSubtotal(products[i])
+  // }
+
+  // // ITERATION 3
+  // //... your code goes here
+
+  // let total = 0;
+  // for (let i = 0; i < products.length; i++) {
+  //   total += Number(products[i].querySelector('.subtotal span').innerHTML);
+  // }
+
+  // document.querySelector("h2 span").innerHTML = total;
+  //END OF FIRST ATTEMPT
+
+  const products = document.getElementsByClassName("product");
+  let totalValue = 0;
   for (let i = 0; i < products.length; i++) {
-    updateSubtotal(products[i])
+    totalValue += updateSubtotal(products[i]);
   }
+  console.log("total: ", totalValue);
 
   // ITERATION 3
-  //... your code goes here
-
-  let total = 0;
-  for (let i = 0; i < products.length; i++) {
-    total += Number(products[i].querySelector('.subtotal span').innerHTML);
-  }
-
-  document.querySelector("h2 span").innerHTML = total;
+  const total = document.querySelector("#total-value span");
+  total.innerHTML = totalValue;
 
 }
 
@@ -53,14 +65,33 @@ function calculateAll() {
 
 function removeProduct(event) {
   const target = event.currentTarget;
-  console.log('The target in remove is:', target);
-  //... your code goes here
+  const product = target.parentNode.parentNode;
+  product.parentNode.removeChild(product);
 }
 
 // ITERATION 5
 
 function createProduct() {
-  //... your code goes here
+  const productName = document.querySelector(".create-product .name");
+  const productPrice = document.querySelector(".create-product .price");
+
+  const parent = document.querySelector("tbody");
+  const newProduct = document.createElement("tr");
+  newProduct.className = "product";
+  newProduct.innerHTML = `<td class="name">
+    <span>${productName.value}</span>
+    </td>
+    <td class="price">$<span>${productPrice.value}</span></td>
+    <td class="quantity">
+      <input type="number" value="0" min="0" placeholder="Quantity" />
+    </td>
+    <td class="subtotal">$<span>0</span></td>
+    <td class="action">
+      <button class="btn btn-remove">Remove</button>
+    </td>`;
+  parent.appendChild(newProduct);
+  productName.value = "";
+  productPrice.value = "";
 }
 
 window.addEventListener('load', () => {
